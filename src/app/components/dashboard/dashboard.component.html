@@ -1,0 +1,27 @@
+<div class="navbar-section">
+  <mat-sidenav-container class="navbar-container">
+    <mat-sidenav class="navbar-drawer" mode="side" opened>
+        <div class="nabvar-drawer-elements">
+            <h1 class="logo">EATWHAT</h1>
+            <app-dashboard-profile></app-dashboard-profile>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="navbar-recipes">
+        <app-recipes></app-recipes>
+      </div>
+      <div class="dashboard-tools">
+        <div class="add-button">
+          <button
+            mat-fab
+            color="primary"
+            aria-label="Example icon button with a delete icon"
+            (click)="onAddButtonClicked()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

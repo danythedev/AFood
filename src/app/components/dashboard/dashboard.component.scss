@@ -1,0 +1,31 @@
+//TODO: Rename Classes
+.navbar-section{
+    .navbar-container{
+        height: 100vh;
+        .navbar-drawer{
+            width: 300px;
+           .nabvar-drawer-elements{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-items: center;
+            .logo{
+                margin: 32px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-weight: bold;
+            }
+           }
+        }
+        .navbar-recipes{
+           margin: 10%;
+           background-color: grey;
+        }
+    }
+    .dashboard-tools{
+        .add-button{
+            position: absolute;
+            bottom: 20px;
+            right: 10px;
+        }
+    }
+}

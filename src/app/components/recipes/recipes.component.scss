@@ -1,0 +1,12 @@
+.recipes-section{
+    .recipes-cards{
+        display: flex;
+        padding: 5%;
+        gap: 8px;
+        background-color: aliceblue;
+        .recipe-info{
+            width: 50%;
+            cursor: pointer;
+        }
+    }
+}
