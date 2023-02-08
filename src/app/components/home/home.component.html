@@ -1,1 +1,4 @@
-<app-dashboard></app-dashboard>
+<app-dashboard *ngIf="!isLoading"></app-dashboard>
+<div class="spinner" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>

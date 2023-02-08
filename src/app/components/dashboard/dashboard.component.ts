@@ -17,17 +17,15 @@ export class DashboardComponent implements OnInit {
     console.log('Dashboard Init')
   }
 
-/**
- * onAddButtonClicked
- */
-public onAddButtonClicked() {
-  const dialogRef = this.dialog.open(RecipeInfoComponent, {
+  /**
+   * onAddButtonClicked
+   */
+  public onAddButtonClicked() {
+    console.log('Adding')
+  }
 
-  })
-  
-  dialogRef.afterClosed().subscribe((result) => {
-    console.log('Dialog Closed')
-  })
-}
+  public onShowRecipeInfo(){
+    
+  }
 
 }

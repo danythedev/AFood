@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RecipeService } from 'src/app/services/data/recipe/recipe.service';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  public isLoading = false;
+
+  constructor(private recipeService: RecipeService){}
+
   public ngOnInit(): void {
-    console.log('Home Component Initializes')
+    this.isLoading = true;
+    this.recipeService.loadInitialData().then(() => {
+      this.isLoading = false;
+    })
   }
 
 }

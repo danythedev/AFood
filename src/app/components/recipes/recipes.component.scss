@@ -1,12 +1,21 @@
 .recipes-section{
     .recipes-cards{
         display: flex;
-        padding: 5%;
-        gap: 8px;
-        background-color: aliceblue;
+        gap: 32px;
+        background-color: transparent;
         .recipe-info{
             width: 50%;
             cursor: pointer;
+            .card-title{
+                margin-top: 8px;
+                margin-bottom: 16px;
+            }
+            .card-image{
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
+            
         }
     }
 }

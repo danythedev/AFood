@@ -1,0 +1,14 @@
+.recipe-info-dialog{
+    min-width: 400px;
+    .recipe-info-dialog-header{
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding-bottom: 24px;
+        .dialog-title{
+            margin: 0;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    }
+
+}

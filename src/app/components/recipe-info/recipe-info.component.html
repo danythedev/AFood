@@ -1,12 +1,24 @@
-<h1 mat-dialog-title> Pizza </h1>
-<div mat-dialog-content>
-  <p>Ingredients</p>
-  <mat-form-field appearance="fill">
-    <mat-label>Favorite Animal</mat-label>
-    <!-- <input matInput [(ngModel)]="data.animal"> -->
-  </mat-form-field>
+<div class="recipe-info-dialog">
+    <form [formGroup]="recipeInfoForm" (ngSubmit)="onSubmit(recipeInfoForm.value)">
+
+        <div class="recipe-info-dialog-header">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home">edit</mat-icon>
+            <h1 class="dialog-title"> Edit recipe</h1>
+        </div>
+        
+        <div mat-dialog-content>
+        <p>Name</p>
+          <mat-form-field appearance="fill">
+            <input formControlName="name" matInput >
+          </mat-form-field>
+          <p>Ingredients</p>
+        
+        
+        </div>
+        <div mat-dialog-actions>
+          <button mat-button (click)="onNoClick()">Close</button>
+          <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
+        </div>
+        </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
-</div>
+
