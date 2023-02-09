@@ -1,5 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { RecipeEntity } from 'src/app/services/data/interfaces/recipe.interface';
+import { RecipeEntity } from 'src/app/services/data/recipe/recipe.interface';
 import { RecipeService } from 'src/app/services/data/recipe/recipe.service';
 import { DialogService } from 'src/app/services/dialogs/dialog.service';
 
@@ -15,7 +15,9 @@ export class RecipesComponent implements OnInit {
   public recipes: RecipeEntity[] = []
 
   ngOnInit(): void {
+    console.log('Recipes component loaded')
     this.recipes = this.recipeSerice.getRecipes;
+    console.log(this.recipes)
   }
 
   public onRecipeClicked(selectedRecipe: RecipeEntity): void{

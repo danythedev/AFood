@@ -1,24 +1,27 @@
 <div class="recipe-info-dialog">
-    <form [formGroup]="recipeInfoForm" (ngSubmit)="onSubmit(recipeInfoForm.value)">
+  <form
+    [formGroup]="recipeInfoForm"
+  >
+    <div class="recipe-info-dialog-header">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        fontIcon="home"
+        >edit</mat-icon
+      >
+      <h1 class="dialog-title">Edit recipe</h1>
+    </div>
 
-        <div class="recipe-info-dialog-header">
-            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home">edit</mat-icon>
-            <h1 class="dialog-title"> Edit recipe</h1>
-        </div>
-        
-        <div mat-dialog-content>
-        <p>Name</p>
-          <mat-form-field appearance="fill">
-            <input formControlName="name" matInput >
-          </mat-form-field>
-          <p>Ingredients</p>
-        
-        
-        </div>
-        <div mat-dialog-actions>
-          <button mat-button (click)="onNoClick()">Close</button>
-          <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
-        </div>
-        </form>
+    <div mat-dialog-content>
+      <p>Name</p>
+      <mat-form-field appearance="fill">
+        <input formControlName="name" matInput />
+      </mat-form-field>
+      <p>Ingredients</p>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">Close</button>
+      <button mat-button [mat-dialog-close]  (click)="onSubmitForm()" cdkFocusInitial>Save</button>
+    </div>
+  </form>
 </div>
-

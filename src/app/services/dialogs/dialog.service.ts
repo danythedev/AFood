@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RecipeInfoComponent } from '../../components/recipe-info/recipe-info.component';
-import { RecipeEntity } from '../data/interfaces/recipe.interface';
+import { RecipeEntity } from '../data/recipe/recipe.interface';
 import _cloneDeep from 'lodash-es/cloneDeep'
 
 //Components
