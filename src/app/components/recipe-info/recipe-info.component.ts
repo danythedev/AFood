@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RecipeEntity, RecipeFormValue } from 'src/app/services/data/recipe/recipe.interface';
+import { Recipe, RecipeEntity, RecipeFormValue } from 'src/app/services/data/recipe/recipe.interface';
 import  _cloneDeep from 'lodash-es/cloneDeep';
 import { ChangesService } from 'src/app/services/data/changes/changes.service';
 
@@ -12,27 +12,25 @@ import { ChangesService } from 'src/app/services/data/changes/changes.service';
 })
 export class RecipeInfoComponent  {
   public recipeInfoForm!: FormGroup;
-  public recipeFormOriginalValue!: RecipeFormValue;
+  public recipeFormOriginalValue!: Recipe;
 
   constructor(
     public dialogRef: MatDialogRef<RecipeInfoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RecipeEntity,
+    @Inject(MAT_DIALOG_DATA) public originalRecipe: Recipe,
     private formBuilder: FormBuilder,
     private changesService: ChangesService
   ) {
 
     this.recipeInfoForm = this.formBuilder.group({
-      name: [data.name],
-      ingredients: [data.ingredients]
+      name: [originalRecipe.name],
+      ingredients: [originalRecipe.ingredients]
     })
-
-    this.recipeFormOriginalValue = _cloneDeep(this.recipeInfoForm.value);
   }
 
   public onSubmitForm(): void {
     if(this.recipeInfoForm.valid){
       const formData = this.recipeInfoForm.value;
-      
+      this.changesService.applyNewRecipeChanges(formData, this.originalRecipe)
     }
   }
 

@@ -8,12 +8,13 @@ import { RecipeInfoComponent } from './recipe-info/recipe-info.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { DashboardProfileComponent } from './dashboard-profile/dashboard-profile.component';
+import { AuthenticationComponent } from './auth/authentication/authentication.component';
 
 
 @NgModule({
     imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule],
     exports: [DashboardComponent,HomeComponent, ReactiveFormsModule],
-    declarations: [DashboardComponent, HomeComponent, RecipesComponent, RecipeInfoComponent, AddRecipeComponent, DashboardProfileComponent],
+    declarations: [DashboardComponent, HomeComponent, RecipesComponent, RecipeInfoComponent, AddRecipeComponent, DashboardProfileComponent, AuthenticationComponent],
     providers: [],
 })
 export class ComponentsModule { }

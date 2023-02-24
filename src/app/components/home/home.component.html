@@ -1,5 +1,5 @@
 <app-dashboard *ngIf="!isLoading"></app-dashboard>
-<div class="spinner" *ngIf="isLoading">
+<div class="spinner" *ngIf="isLoading || isServerLoading">
     <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="showWarning">

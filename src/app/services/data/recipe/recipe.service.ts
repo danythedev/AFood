@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Subject, tap } from 'rxjs';
 import { WarningService } from 'src/app/shared/services/warnings-service';
 import { FirebaseService } from '../firebase/firebase.service';
-import { Recipe, RecipeEntity } from './recipe.interface';
+import { ModifiedRecipe, Recipe, RecipeEntity } from './recipe.interface';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
@@ -13,14 +13,22 @@ export class RecipeService {
     private warningsService: WarningService
   ) {}
 
-  private recipes: RecipeEntity[] = [];
+  private recipes: Recipe[] = [];
 
   public loadInitialData() {
     return this._loadRecipes();
   }
 
-  public get getRecipes(): RecipeEntity[] {
+  public get getRecipes(): Recipe[] {
     return this.recipes;
+  }
+
+  public updateRecipe(modifiedRecipe: ModifiedRecipe, recipeId: string) {
+    this.areRecipesLoadingSubject.next(true)
+    this.firebaseService.updateRecord(modifiedRecipe, recipeId).subscribe((message) => {
+      this.areRecipesLoadingSubject.next(false);
+      this.loadInitialData();
+    })
   }
 
   private _loadRecipes() {
@@ -60,4 +68,6 @@ export class RecipeService {
     });
     return formatedRecipes;
   }
+
+
 }

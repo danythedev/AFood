@@ -1,5 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { RecipeEntity } from 'src/app/services/data/recipe/recipe.interface';
+import { Recipe, RecipeEntity } from 'src/app/services/data/recipe/recipe.interface';
 import { RecipeService } from 'src/app/services/data/recipe/recipe.service';
 import { DialogService } from 'src/app/services/dialogs/dialog.service';
 
@@ -12,7 +12,7 @@ export class RecipesComponent implements OnInit {
 
   constructor(private dialogService: DialogService, private recipeSerice: RecipeService) { }
 
-  public recipes: RecipeEntity[] = []
+  public recipes: Recipe[] = []
 
   ngOnInit(): void {
     console.log('Recipes component loaded')
@@ -20,7 +20,7 @@ export class RecipesComponent implements OnInit {
     console.log(this.recipes)
   }
 
-  public onRecipeClicked(selectedRecipe: RecipeEntity): void{
+  public onRecipeClicked(selectedRecipe: Recipe): void{
     this.dialogService.openRecipeInfoDialog(selectedRecipe);
   }
 

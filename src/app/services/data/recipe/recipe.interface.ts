@@ -13,7 +13,12 @@ export interface Ingredient {
     quantity: number;
 }
 
-export interface RecipeFormValue {
+export interface RecipeFormValue extends ModifiedRecipe {
     name: string;
     ingredients: Ingredient[];
+    url: string;
+}
+
+export interface ModifiedRecipe {
+    [key: string]: Ingredient[] | string;
 }
