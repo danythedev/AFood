@@ -1,0 +1,20 @@
+<div class="auth-containter">
+    <h1>EATWHAT</h1>
+    <form  [formGroup]="logInForm" action="">
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" type="email" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" stype="password" matInput>
+        </mat-form-field>
+        <button mat-button (click)="onToggleAccessMode()" *ngIf="!showLogIn" >Already have an account?</button>
+        <div class="auth-actions">
+            <button mat-flat-button (click)="onSubmitLogInForm()" [disabled]="!logInForm.valid" color="primary">{{ showLogIn ? 'Log In' : 'Sign Up' }}</button>
+            <button mat-flat-button (click)="onToggleAccessMode()" *ngIf="showLogIn">Sign Up</button>
+        </div>
+    </form>
+</div>
+
+

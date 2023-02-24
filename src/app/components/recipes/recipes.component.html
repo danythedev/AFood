@@ -1,0 +1,12 @@
+<div class="recipes-section">
+    <div class="recipes-cards">
+        <mat-card *ngFor="let recipe of recipes" class="recipe-info" (click)="onRecipeClicked(recipe)" > 
+            <mat-card-content>
+                <mat-card-title class="card-title">{{recipe.name}}</mat-card-title>
+                <mat-card-content>
+                    <img class="card-image" [src]="recipe.imageUrl" alt="">
+                </mat-card-content>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

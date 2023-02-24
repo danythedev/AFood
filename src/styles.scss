@@ -37,3 +37,12 @@ $angularFood-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+//Editing all Material CSS
+.mat-dialog-container{
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+};
+
+.mat-form-field{
+  display: block !important;
+}
