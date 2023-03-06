@@ -1,54 +1,100 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { tap } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
-import { ModifiedRecipe, RecipeEntity } from '../recipe/recipe.interface';
-import { AuthData as AuthResponseData } from './firebase.interface';
+import { RecipeEntity } from '../recipe/recipe.interface';
+import { FirebaseUserService } from './firebase-user.service';
+import {
+  SignUpResponse as SignUpResponse,
+  SignInResponse,
+} from './firebase.interface';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class FirebaseService {
-
   public isServerLoading = new Subject<boolean>();
 
-    constructor(private httpService: HttpClient) { }
+  constructor(
+    private httpService: HttpClient,
+    private userService: FirebaseUserService
+  ) {}
 
-    public updateRecord(newData: object, recordId: string){
-      console.log({newData, recordId})
-      return this.httpService.patch(`https://afood-da784-default-rtdb.firebaseio.com/recipes/${recordId}.json`, newData)
-    }
+  public updateRecord(newData: object, recordId: string) {
+    console.log({ newData, recordId });
+    return this.httpService.patch(
+      `https://afood-da784-default-rtdb.firebaseio.com/recipes/${recordId}.json`,
+      newData
+    );
+  }
 
-    public replaceAndStoreNewData(recipeData: RecipeEntity[]){
-       this.httpService.put('https://afood-da784-default-rtdb.firebaseio.com/recipes.json', recipeData).subscribe((result) => {
-         console.log('Results', result)
-       })
-    }
+  public replaceAndStoreNewData(recipeData: RecipeEntity[]) {
+    this.httpService
+      .put(
+        'https://afood-da784-default-rtdb.firebaseio.com/recipes.json',
+        recipeData
+      )
+      .subscribe((result) => {
+        console.log('Results', result);
+      });
+  }
 
-    public loadData(): Observable<RecipeEntity[]>{
-        return this.httpService.get<RecipeEntity[]>('https://afood-da784-default-rtdb.firebaseio.com/recipes.json')
-    }
+  public getRecipesFromAPI(): Observable<RecipeEntity[]> {
+    return this.httpService.get<RecipeEntity[]>(
+      'https://afood-da784-default-rtdb.firebaseio.com/recipes.json'
+    );
+  }
 
-    public deleteRecord(){
-  
-      
-    }
+  // TODO: Implement Delete Recipes
+  // // public deleteRecord(){
 
-    /**
-     * 
-     * @param email 
-     * @param newPassword 
-     * @returns 
-     */
-    public signUpUser(email: string, newPassword: string) {
-      this.isServerLoading.next(true)
-      return this.httpService.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCsrbTDi8W9W4QJILsAg2NedLv0UBkiCCI',
-      {
-        email: email,
-        password: newPassword,
-        returnSecureToken: true
-      }
-      ).subscribe((response) => {
-        this.isServerLoading.next(false)
-        console.log('User Sign up', response)
-      })
-    }
+  // // }
 
+  /**
+   * Triggers an http request to sign up an User into Firebase
+   * @param {string} email - The email the user is registering
+   * @param {string} password - The password set for the user account
+   * @returns {Subscription} - A subscription that gets the response of the firebase sign up request.
+   */
+  public signUpUser(email: string, newPassword: string) {
+    return this.httpService
+      .post<SignUpResponse>(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCsrbTDi8W9W4QJILsAg2NedLv0UBkiCCI',
+        {
+          email: email,
+          password: newPassword,
+          returnSecureToken: true,
+        }
+      )
+      .pipe(
+        tap((resData) => {
+          this.userService.handleUserAuthentication(resData);
+        })
+      );
+  }
+
+  /**
+   * Triggers an http request to sign up an User into Firebase
+   * @param {string} email - The email the user is registering
+   * @param {string} password - The password set for the user account
+   * @returns {Subscription} - A subscription that gets the response of the firebase sign up request.
+   */
+  public signIn(
+    email: string,
+    currentPassword: string
+  ): Observable<SignInResponse> {
+    return this.httpService
+      .post<SignInResponse>(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCsrbTDi8W9W4QJILsAg2NedLv0UBkiCCI',
+        {
+          email: email,
+          password: currentPassword,
+          returnSecureToken: true,
+        }
+      )
+      .pipe(
+        tap((resData) => {
+          console.log(resData);
+          this.userService.handleUserAuthentication(resData);
+        })
+      );
+  }
 }

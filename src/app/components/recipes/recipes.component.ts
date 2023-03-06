@@ -15,7 +15,6 @@ export class RecipesComponent implements OnInit {
   public recipes: Recipe[] = []
 
   ngOnInit(): void {
-    console.log('Recipes component loaded')
     this.recipes = this.recipeSerice.getRecipes;
     console.log(this.recipes)
   }

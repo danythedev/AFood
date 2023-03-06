@@ -7,8 +7,11 @@
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
-            <input formControlName="password" stype="password" matInput>
+            <input formControlName="password" type="password" matInput>
         </mat-form-field>
+        <div class="auth-errors" *ngIf="logInForm.hasError('formInvalidData') && authError">
+            <p>{{authError}}</p>
+        </div>
         <button mat-button (click)="onToggleAccessMode()" *ngIf="!showLogIn" >Already have an account?</button>
         <div class="auth-actions">
             <button mat-flat-button (click)="onSubmitLogInForm()" [disabled]="!logInForm.valid" color="primary">{{ showLogIn ? 'Log In' : 'Sign Up' }}</button>

@@ -6,8 +6,6 @@ import { ModifiedRecipe, Recipe, RecipeEntity } from './recipe.interface';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
-  public areRecipesLoadingSubject = new Subject<boolean>();
-
   constructor(
     private firebaseService: FirebaseService,
     private warningsService: WarningService
@@ -24,36 +22,28 @@ export class RecipeService {
   }
 
   public updateRecipe(modifiedRecipe: ModifiedRecipe, recipeId: string) {
-    this.areRecipesLoadingSubject.next(true)
-    this.firebaseService.updateRecord(modifiedRecipe, recipeId).subscribe((message) => {
-      this.areRecipesLoadingSubject.next(false);
-      this.loadInitialData();
-    })
+    this.firebaseService
+      .updateRecord(modifiedRecipe, recipeId)
+      .subscribe((message) => {
+        this.loadInitialData();
+      });
   }
 
-  private _loadRecipes() {
-    this.areRecipesLoadingSubject.next(true);
-    this.warningsService.isWarningOnSubject.next(false);
-    this.firebaseService
-      .loadData()
-      .pipe(
-        tap(() => {
-          this.warningsService.isWarningOnSubject.next(false);
-          this.areRecipesLoadingSubject.next(false);
-        })
-      )
+  private _loadRecipes(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.firebaseService
+      .getRecipesFromAPI()
       .subscribe({
         next: (recipes) => {
           this.recipes = this.getFormatedRecipes(recipes);
+          resolve();
         },
-        error: () => {
-            console.log('Error')
-          this.warningsService.isWarningOnSubject.next(true);
-          this.warningsService.isWarningOnSubject.subscribe(() => {
-            console.log('Sub')
-          })
+        error: (error) => {
+          console.log('Loading Recipes Error', error);
+          reject();
         },
       });
+    })
   }
 
   private getFormatedRecipes(loadedRecipes: RecipeEntity[]) {
@@ -68,6 +58,4 @@ export class RecipeService {
     });
     return formatedRecipes;
   }
-
-
 }
