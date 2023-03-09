@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
-import { catchError, Subject, tap } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { WarningService } from 'src/app/shared/services/warnings-service';
 import { FirebaseService } from '../firebase/firebase.service';
 import { ModifiedRecipe, Recipe, RecipeEntity } from './recipe.interface';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
-  public areRecipesLoadingSubject = new Subject<boolean>();
-
   constructor(
     private firebaseService: FirebaseService,
-    private warningsService: WarningService
   ) {}
 
+  //Stores loaded recipes.
   private recipes: Recipe[] = [];
 
-  public loadInitialData() {
+  /**
+   * Loads all the recipes that are necessary to load the app.
+   * @returns { Promise<void> } A promise that resolves when the recipes finished loading. 
+   */
+  public loadInitialData(): Promise<void> {
     return this._loadRecipes();
   }
 
@@ -23,40 +25,36 @@ export class RecipeService {
     return this.recipes;
   }
 
-  public updateRecipe(modifiedRecipe: ModifiedRecipe, recipeId: string) {
-    this.areRecipesLoadingSubject.next(true)
-    this.firebaseService.updateRecord(modifiedRecipe, recipeId).subscribe((message) => {
-      this.areRecipesLoadingSubject.next(false);
-      this.loadInitialData();
-    })
-  }
-
-  private _loadRecipes() {
-    this.areRecipesLoadingSubject.next(true);
-    this.warningsService.isWarningOnSubject.next(false);
+  /**
+   * Updates the recipes in the application with the new values received.
+   * @param {ModifiedRecipe} modifiedRecipe - The recipe that has been modified.
+   * @param {string} originalRecipeId - The recipe Id that will be modified.
+   */
+  public updateRecipe(modifiedRecipe: ModifiedRecipe, originalRecipeId: string) {
     this.firebaseService
-      .loadData()
-      .pipe(
-        tap(() => {
-          this.warningsService.isWarningOnSubject.next(false);
-          this.areRecipesLoadingSubject.next(false);
-        })
-      )
-      .subscribe({
-        next: (recipes) => {
-          this.recipes = this.getFormatedRecipes(recipes);
-        },
-        error: () => {
-            console.log('Error')
-          this.warningsService.isWarningOnSubject.next(true);
-          this.warningsService.isWarningOnSubject.subscribe(() => {
-            console.log('Sub')
-          })
-        },
+      .updateRecord(modifiedRecipe, originalRecipeId)
+      .subscribe(() => {
+        this.loadInitialData();
       });
   }
 
-  private getFormatedRecipes(loadedRecipes: RecipeEntity[]) {
+  
+  /**
+   * Loads recipes data from the Firebase API and formats it for use in the application.
+   * Uses the `getRecipesFromAPI` method from the `firebaseService`.
+   * 
+   * @returns {Promise<void>} A Promise that resolves when the recipes have been loaded and formatted.
+  */
+  private async _loadRecipes(): Promise<void> {
+    try {
+      const loadedRecipes = await lastValueFrom(this.firebaseService.getRecipesFromAPI());
+      this.recipes = this.getFormattedRecipes(loadedRecipes);
+    } catch (error) {
+      console.log('Error in loading recipes', error)
+    }
+  }
+
+  private getFormattedRecipes(loadedRecipes: RecipeEntity[]) {
     const formatedRecipes: Recipe[] = loadedRecipes.map((recipe, index) => {
       const formatedRecipe = {
         name: recipe.name,
@@ -68,6 +66,4 @@ export class RecipeService {
     });
     return formatedRecipes;
   }
-
-
 }

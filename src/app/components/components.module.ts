@@ -13,7 +13,7 @@ import { AuthenticationComponent } from './auth/authentication/authentication.co
 
 @NgModule({
     imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule],
-    exports: [DashboardComponent,HomeComponent, ReactiveFormsModule],
+    exports: [DashboardComponent,HomeComponent, ReactiveFormsModule, SharedModule],
     declarations: [DashboardComponent, HomeComponent, RecipesComponent, RecipeInfoComponent, AddRecipeComponent, DashboardProfileComponent, AuthenticationComponent],
     providers: [],
 })

@@ -9,4 +9,4 @@ import { WarningService } from './services/warnings-service';
     declarations: [],
     providers: [WarningService],
 })
-export class SharedModule { }
+export class SharedModule {}
