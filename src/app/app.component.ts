@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FirebaseService } from './services/data/firebase/firebase.service';
 
@@ -11,14 +11,13 @@ export class AppComponent implements OnInit, OnDestroy {
   public isServerLoading = false;
   private isServerLoadingSubscription = new Subscription();
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private firebaseService: FirebaseService, private cdr: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
-    console.log('App Init');
     this.isServerLoadingSubscription =
       this.firebaseService.isServerLoading.subscribe((isServerLoading) => {
-        console.log('Is Server Loaginf sub');
         this.isServerLoading = isServerLoading;
+        this.cdr.detectChanges();
       });
   }
 

@@ -15,7 +15,6 @@ export class DashboardComponent implements OnInit {
   constructor (public dialog: MatDialog, private recipeService: RecipeService) {}
 
   ngOnInit(): void {
-    console.log('Dashboard Init')
   }
 
   /**

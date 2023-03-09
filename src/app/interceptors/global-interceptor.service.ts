@@ -10,7 +10,6 @@ export class GlobalInterceptor implements HttpInterceptor {
     constructor(private firebaseService: FirebaseService ) {}
 
     public intercept(request: HttpRequest<object>, next: HttpHandler): Observable<HttpEvent<object>>{
-        console.log('Intercepting request!', request)
         this.firebaseService.isServerLoading.next(true);
         return next.handle(request).pipe(
             finalize(()=> this.firebaseService.isServerLoading.next(false))

@@ -10,13 +10,12 @@ import { DialogService } from 'src/app/services/dialogs/dialog.service';
 })
 export class RecipesComponent implements OnInit {
 
-  constructor(private dialogService: DialogService, private recipeSerice: RecipeService) { }
+  constructor(private dialogService: DialogService, private recipeService: RecipeService) { }
 
   public recipes: Recipe[] = []
 
   ngOnInit(): void {
-    this.recipes = this.recipeSerice.getRecipes;
-    console.log(this.recipes)
+    this.recipes = this.recipeService.getRecipes;
   }
 
   public onRecipeClicked(selectedRecipe: Recipe): void{

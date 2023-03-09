@@ -12,7 +12,6 @@ export class ChangesService {
     
     public applyNewRecipeChanges(modifiedRecipe: RecipeFormValue, originalRecipe: Recipe){
         const areNewChanges = !_isEqual(modifiedRecipe,originalRecipe);
-        console.log('Are there new changes?', areNewChanges, originalRecipe)
 
         if(areNewChanges){
             const modifiedRecipeProps: ModifiedRecipe = {
