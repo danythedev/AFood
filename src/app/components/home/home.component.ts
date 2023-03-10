@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.recipeService.loadInitialData().then(() => {
-      this.areRecipesLoaded = true;
+        this.areRecipesLoaded = true;
     })
   }
 }
