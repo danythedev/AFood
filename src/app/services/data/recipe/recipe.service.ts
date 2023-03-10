@@ -38,7 +38,7 @@ export class RecipeService {
    */
   public updateRecipe(modifiedRecipe: ModifiedRecipe, originalRecipeId: string) {
     this.firebaseService
-      .updateRecord(modifiedRecipe, originalRecipeId)
+      .updateRecipe(modifiedRecipe, originalRecipeId)
       .subscribe(() => {
         this._loadRecipes(true);
       });

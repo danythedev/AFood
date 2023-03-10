@@ -18,23 +18,12 @@ export class FirebaseService {
     private userService: FirebaseUserService
   ) {}
 
-  public updateRecord(newData: object, recordId: string) {
+  public updateRecipe(newData: object, recordId: string) {
     console.log({ newData, recordId });
     return this.httpService.patch(
       `https://afood-da784-default-rtdb.firebaseio.com/recipes/${recordId}.json`,
       newData
     );
-  }
-
-  public replaceAndStoreNewData(recipeData: RecipeEntity[]) {
-    this.httpService
-      .put(
-        'https://afood-da784-default-rtdb.firebaseio.com/recipes.json',
-        recipeData
-      )
-      .subscribe((result) => {
-        console.log('Results', result);
-      });
   }
 
   public getRecipesFromAPI(): Observable<RecipeEntity[]> {
@@ -66,6 +55,7 @@ export class FirebaseService {
       )
       .pipe(
         tap((resData) => {
+          console.log('Sign Up Data', resData)
           this.userService.handleUserAuthentication(resData);
         })
       );
@@ -92,7 +82,7 @@ export class FirebaseService {
       )
       .pipe(
         tap((resData) => {
-          console.log(resData);
+          console.log('Sign In data', resData);
           this.userService.handleUserAuthentication(resData);
         })
       );

@@ -7,7 +7,7 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { RecipeInfoComponent } from './recipe-info/recipe-info.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
-import { DashboardProfileComponent } from './dashboard-profile/dashboard-profile.component';
+import { DashboardProfileComponent } from './dashboard/dashboard-profile/dashboard-profile.component';
 import { AuthenticationComponent } from './auth/authentication/authentication.component';
 
 
