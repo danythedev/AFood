@@ -4,17 +4,10 @@ import { RecipeInfoComponent } from '../../components/recipe-info/recipe-info.co
 import { RecipeEntity } from '../data/recipe/recipe.interface';
 import _cloneDeep from 'lodash-es/cloneDeep'
 
-//Components
-
-
 @Injectable({providedIn: 'root'})
 export class DialogService {
     constructor(public dialog: MatDialog) { }
     
-    public openAddDialog(): void{
-        console.log()
-    }
-
     public openRecipeInfoDialog(selectedRecipe: RecipeEntity): void {
         const selectedRecipeData = _cloneDeep(selectedRecipe);
         this.dialog.open(RecipeInfoComponent, {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
-import { WarningService } from 'src/app/shared/services/warnings-service';
+import { lastValueFrom, Subject } from 'rxjs';
 import { FirebaseService } from '../firebase/firebase.service';
 import { ModifiedRecipe, Recipe, RecipeEntity } from './recipe.interface';
 
@@ -12,15 +11,22 @@ export class RecipeService {
 
   //Stores loaded recipes.
   private recipes: Recipe[] = [];
+  
+  //Listens to newly loaded Recipes.
+  public recipesListenerSubject = new Subject<Recipe[]>;
 
   /**
    * Loads all the recipes that are necessary to load the app.
    * @returns { Promise<void> } A promise that resolves when the recipes finished loading. 
    */
   public loadInitialData(): Promise<void> {
-    return this._loadRecipes();
+    return this._loadRecipes(false);
   }
 
+  /**
+   * Gets the recipe stored on the service instance.
+   * @return {Recipe[]} - The recipes that are stored locally.
+   */
   public get getRecipes(): Recipe[] {
     return this.recipes;
   }
@@ -34,7 +40,7 @@ export class RecipeService {
     this.firebaseService
       .updateRecord(modifiedRecipe, originalRecipeId)
       .subscribe(() => {
-        this.loadInitialData();
+        this._loadRecipes(true);
       });
   }
 
@@ -43,27 +49,36 @@ export class RecipeService {
    * Loads recipes data from the Firebase API and formats it for use in the application.
    * Uses the `getRecipesFromAPI` method from the `firebaseService`.
    * 
+   * @param {boolean} isUpdate - Determines if the application will be used to fetch data after an update of the same.
    * @returns {Promise<void>} A Promise that resolves when the recipes have been loaded and formatted.
   */
-  private async _loadRecipes(): Promise<void> {
+  private async _loadRecipes(isUpdate: boolean): Promise<void> {
     try {
       const loadedRecipes = await lastValueFrom(this.firebaseService.getRecipesFromAPI());
       this.recipes = this.getFormattedRecipes(loadedRecipes);
+      if(isUpdate){
+        this.recipesListenerSubject.next(this.recipes)
+      }
     } catch (error) {
       console.log('Error in loading recipes', error)
     }
   }
 
+  /**
+   * Formats the recipe data that comes from te API to be more legible on code.
+   * @param {RecipeEntity[]} loadedRecipes - The pre formatted recipe data.
+   * @returns 
+   */
   private getFormattedRecipes(loadedRecipes: RecipeEntity[]) {
-    const formatedRecipes: Recipe[] = loadedRecipes.map((recipe, index) => {
-      const formatedRecipe = {
+    const formattedRecipes: Recipe[] = loadedRecipes.map((recipe, index) => {
+      const formattedRecipe = {
         name: recipe.name,
         imageUrl: recipe.imageUrl,
         ingredients: recipe.ingredients,
         id: index.toString(),
       };
-      return formatedRecipe;
+      return formattedRecipe;
     });
-    return formatedRecipes;
+    return formattedRecipes;
   }
 }
