@@ -23,6 +23,10 @@ export class RecipeService {
     return this._loadRecipes(false);
   }
 
+  /**
+   * Gets the recipe stored on the service instance.
+   * @return {Recipe[]} - The recipes that are stored locally.
+   */
   public get getRecipes(): Recipe[] {
     return this.recipes;
   }
@@ -45,6 +49,7 @@ export class RecipeService {
    * Loads recipes data from the Firebase API and formats it for use in the application.
    * Uses the `getRecipesFromAPI` method from the `firebaseService`.
    * 
+   * @param {boolean} isUpdate - Determines if the application will be used to fetch data after an update of the same.
    * @returns {Promise<void>} A Promise that resolves when the recipes have been loaded and formatted.
   */
   private async _loadRecipes(isUpdate: boolean): Promise<void> {
@@ -59,16 +64,21 @@ export class RecipeService {
     }
   }
 
+  /**
+   * Formats the recipe data that comes from te API to be more legible on code.
+   * @param {RecipeEntity[]} loadedRecipes - The pre formatted recipe data.
+   * @returns 
+   */
   private getFormattedRecipes(loadedRecipes: RecipeEntity[]) {
-    const formatedRecipes: Recipe[] = loadedRecipes.map((recipe, index) => {
-      const formatedRecipe = {
+    const formattedRecipes: Recipe[] = loadedRecipes.map((recipe, index) => {
+      const formattedRecipe = {
         name: recipe.name,
         imageUrl: recipe.imageUrl,
         ingredients: recipe.ingredients,
         id: index.toString(),
       };
-      return formatedRecipe;
+      return formattedRecipe;
     });
-    return formatedRecipes;
+    return formattedRecipes;
   }
 }
